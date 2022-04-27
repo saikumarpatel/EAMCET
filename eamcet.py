@@ -14,16 +14,16 @@ background = "white"
 branchdict={"OC","BC-A","BC-B","BC-C","BC-D","BC-E","SC","ST"}
 
 def goto():
-    global r,clicked,root1,category,Quota,branch
+    global r,clicked,root1,category,branch
     caste=category.get()
     rank=l2.get()
     s = caste.replace("-", "")
     s=s.replace("_","")
     path = f"Eamcet analysis\\{branch.get()}" + "_2022.csv"
-    print(path,rank,caste,Quota.get(),branch.get())
-    Q=Quota.get()
+    print(path,rank,caste,branch.get())
+    #Q=category.get()
 
-    if Q=="EWS" or Q=="PH" or Q=="CAP":
+    if caste=="BC_E" or  caste=="PH":
         data=pd.read_csv(path)
         count=0
         total=1
@@ -31,7 +31,7 @@ def goto():
         M=0
         for i,j in zip(data["Eamcet Rank"],data["Category"]):
             print(type(i),i)
-            if Q in j:
+            if caste in j:
                 m=min(m,int(i))
                 M=max(M,int(i))
                 if int(rank)<int(i):
@@ -166,29 +166,27 @@ if __name__=="__main__":
     clicked.set("         ")
     l22 = OptionMenu(root1, clicked, *category).place(x=250, y=280)"""
     category=Combobox(root1,font=("BOLD", 10))
-    category['values']=("   ","OC","BC_A","BC_B","BC_C","BC_D","SC","ST")
+    category['values']=("   ","OC","BC_A","BC_B","BC_C","BC_D","BC_E","SC","ST","PH")
+    category.current(0)
     category.place(x=250,y=240)
-    Label(root1,text="Quota",font=("BOLD", 16)).place(x=50,y=300)
+    """Label(root1,text="Quota",font=("BOLD", 16)).place(x=50,y=300)
     Quota=Combobox(root1,font=("BOLD", 10))
     Quota['values'] = ("     ","PH", "EWS","CAP", "Other")
     Quota.current(0)
-    Quota.place(x=250,y=300)
-    l5 = Label(root1, text="Gender",font=("BOLD",16)).place(x=50, y=360)
+    Quota.place(x=250,y=300)"""
+    l5 = Label(root1, text="Gender",font=("BOLD",16)).place(x=50, y=300)
     r = IntVar()
     s = ttk.Style()
     s.configure('Wild.TRadiobutton', background=background, foreground="blue", font=('Arial Bold', 16),
                 focuscolor=s.configure(".")["background"])
     genMale = ttk.Radiobutton(root1, text='Male', value=1, variable=r, style='Wild.TRadiobutton', takefocus=False)
-    genMale.place(x=250, y=360)
+    genMale.place(x=250, y=300)
     genFemale = ttk.Radiobutton(root1, text='Female', value=2, variable=r, style='Wild.TRadiobutton',
                                 takefocus=False)
-    genFemale.place(x=350, y=360)
+    genFemale.place(x=350, y=300)
     #l6 = Label(root1).place(x=100, y=100)
 
-    Button(root1,text="Search",command=goto,font=("BOLD",16)).place(x=50,y=420)
-    Button(root1,text="Clear",command=lambda:root.destroy(),font=("BOLD",16)).place(x=250,y=420)
-
-
-
+    Button(root1,text="Search",command=goto,font=("BOLD",16)).place(x=50,y=360)
+    Button(root1,text="Clear",command=lambda:root.destroy(),font=("BOLD",16)).place(x=250,y=360)
 
     root.mainloop()
